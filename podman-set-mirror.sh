@@ -36,7 +36,7 @@ if [ -z "$lsb_dist" ] && [ -r /etc/rocky-release ]; then
     lsb_dist="$(cat /etc/*-release | head -n1 | cut -d " " -f1)"
 fi
 if [ -z "$lsb_dist" ] && [ -r /etc/redhat-release ]; then
-    lsb_dist="$(cat /etc/*-release | head -n1 | cut -d " " -f1)"
+    lsb_dist='rhel'
 fi
 lsb_dist="$(echo $lsb_dist | cut -d " " -f1)"
 podman_version="$(podman -v | awk '{print $3}')"
@@ -86,7 +86,23 @@ set_mirror(){
 
     case "$lsb_dist" in
         centos)
-        if grep "CentOS release 6" /etc/redhat-release > /dev/null
+        if grep "CentOS release 6" /etc/*-release > /dev/null
+	then
+            echo "How dare you want to install it on 6.x ?"
+            exit 0
+        else
+            if no_need_set_prefix; then
+                sudo echo -e "[[docker.io]]\\nlocation = \"${MIRROR_URL}\"\n" > ${podman_REGISTRIES_CONFIG_FILE}
+            else
+                set_prefix
+            fi
+            echo "Success."
+            echo "You are free to"
+            exit 0
+        fi
+    ;;
+        rhel)
+        if grep "CentOS release 6" /etc/*-release > /dev/null
 	then
             echo "How dare you want to install it on 6.x ?"
             exit 0
