@@ -97,7 +97,7 @@ set_mirror(){
                 set_prefix
             fi
             echo "Success."
-            echo "You are free to"
+            echo "Your dockerhub is free to go"
             exit 0
         fi
     ;;
@@ -113,7 +113,7 @@ set_mirror(){
                 set_prefix
             fi
             echo "Success."
-            echo "You are free to"
+            echo "Your dockerhub is free to go"
             exit 0
         fi
     ;;
