@@ -121,7 +121,6 @@ set_mirror(){
             exit 0
         fi
     ;;
-    ;;
         AlmaLinux)
         if grep "Alma release 6" /etc/alma-release > /dev/null
 	then
