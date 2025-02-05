@@ -32,6 +32,9 @@ fi
 if [ -z "$lsb_dist" ] && [ -r /etc/centos-release ]; then
     lsb_dist="$(cat /etc/*-release | head -n1 | cut -d " " -f1)"
 fi
+if [ -z "$lsb_dist" ] && [ -r /etc/almalinux-release ]; then
+    lsb_dist="$(cat /etc/*-release | head -n1 | cut -d " " -f1)"
+fi
 if [ -z "$lsb_dist" ] && [ -r /etc/rocky-release ]; then
     lsb_dist="$(cat /etc/*-release | head -n1 | cut -d " " -f1)"
 fi
