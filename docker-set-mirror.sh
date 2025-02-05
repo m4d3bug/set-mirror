@@ -103,41 +103,41 @@ set_mirror(){
         fi
     ;;
         rocky)
-        if grep "Rocky release 6" /etc/rocky-release > /dev/null
-	then
-            echo "Are you kidding me? 6.x ?"
-            exit 0
-        else
+        if grep "Rocky release" /etc/fedora-release > /dev/null
+        then
             if can_set_json; then
-                DOCKER_SERVICE_FILE="/lib/systemd/system/docker.service"
-                sudo cp ${DOCKER_SERVICE_FILE} "${DOCKER_SERVICE_FILE}.bak"
-                sudo sed -i "s|\(ExecStart=/usr/bin/docker[^ ]* daemon\)|\1 --registry-mirror="${MIRROR_URL}"|g" ${DOCKER_SERVICE_FILE}
-                sudo systemctl daemon-reload
+            DOCKER_SERVICE_FILE="/lib/systemd/system/docker.service"
+            sudo cp ${DOCKER_SERVICE_FILE} "${DOCKER_SERVICE_FILE}.bak"
+            sudo sed -i "s|\(ExecStart=/usr/bin/docker[^ ]* daemon\)|\1 --registry-mirror="${MIRROR_URL}"|g" ${DOCKER_SERVICE_FILE}
+            sudo systemctl daemon-reload
             else
                 set_daemon_json_file
             fi
             echo "Success."
             echo "You need to restart docker to take effect: sudo systemctl restart docker "
             exit 0
+        else
+            echo "Error: Set mirror failed, please set registry-mirror manually please."
+            exit 1
         fi
     ;;
-        AlmaLinux)
-        if grep "Alma release 6" /etc/alma-release > /dev/null
-	then
-            echo "Are you kidding me? 6.x ?"
-            exit 0
-        else
+        alma)
+        if grep "AlmaLinux release" /etc/fedora-release > /dev/null
+        then
             if can_set_json; then
-                DOCKER_SERVICE_FILE="/lib/systemd/system/docker.service"
-                sudo cp ${DOCKER_SERVICE_FILE} "${DOCKER_SERVICE_FILE}.bak"
-                sudo sed -i "s|\(ExecStart=/usr/bin/docker[^ ]* daemon\)|\1 --registry-mirror="${MIRROR_URL}"|g" ${DOCKER_SERVICE_FILE}
-                sudo systemctl daemon-reload
+            DOCKER_SERVICE_FILE="/lib/systemd/system/docker.service"
+            sudo cp ${DOCKER_SERVICE_FILE} "${DOCKER_SERVICE_FILE}.bak"
+            sudo sed -i "s|\(ExecStart=/usr/bin/docker[^ ]* daemon\)|\1 --registry-mirror="${MIRROR_URL}"|g" ${DOCKER_SERVICE_FILE}
+            sudo systemctl daemon-reload
             else
                 set_daemon_json_file
             fi
             echo "Success."
             echo "You need to restart docker to take effect: sudo systemctl restart docker "
             exit 0
+        else
+            echo "Error: Set mirror failed, please set registry-mirror manually please."
+            exit 1
         fi
     ;;
         fedora)
